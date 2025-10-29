@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aptitude Result</title>
+</head>
+<body>
+  <div style="max-width:700px;margin:40px auto;font-family:Arial, sans-serif;">
+    <h1>Aptitude Result</h1>
+    <p style="font-size:18px;">You scored <strong>{{ score }}</strong> out of <strong>{{ total }}</strong>.</p>
+    <a href="{% url 'quiz' %}">Try Again (new random questions)</a>
+  </div>
+</body>
+</html>

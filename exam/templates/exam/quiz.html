@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="shortcut icon" href="https://d2q79iu7y748jz.cloudfront.net/s/_squarelogo/256x256/3bd878073b208bdad45534d68f5a44e2" type="image/x-icon">
+  <title>Aptitude Quiz</title>
+  <link rel="stylesheet" href="{% static 'exam/style.css' %}">
+  <script src="{% static 'exam/timer.js' %}" defer></script>
+</head>
+<body>
+    <!-- <div class="images" style="margin-left: 18%; display:flex ; gap: 30px ">
+        
+        <img  style="height: 200px; " src="{% static 'img\py.png' %}" alt="no">
+        <img  style="height: 150px; " src="{% static 'img\ipc.png' %}" alt="no">
+        <img  style="height: 150px;  " src="{% static 'img\JSPIDERS.png' %}" alt="no">
+    </div> -->
+      <div class="images" style="
+      margin: 30px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+      flex-wrap: wrap;
+  ">
+      <img 
+        src="{% static 'img/py.png' %}" 
+        alt="no"
+        style="
+          height: 160px; 
+          width: auto; 
+          object-fit: contain; 
+          border-radius: 10px;
+          transition: transform 0.3s ease;
+        "
+        onmouseover="this.style.transform='scale(1.1)'"
+        onmouseout="this.style.transform='scale(1)'"
+      >
+      <img 
+        src="{% static 'img/ipc.png' %}" 
+        alt="no"
+        style="
+          height: 140px; 
+          width: auto; 
+          object-fit: contain; 
+          border-radius: 10px;
+          transition: transform 0.3s ease;
+        "
+        onmouseover="this.style.transform='scale(1.1)'"
+        onmouseout="this.style.transform='scale(1)'"
+      >
+      <img 
+        src="{% static 'img/JSPIDERS.png' %}" 
+        alt="no"
+        style="
+          height: 140px; 
+          width: auto; 
+          object-fit: contain; 
+          border-radius: 10px;
+          transition: transform 0.3s ease;
+        "
+        onmouseover="this.style.transform='scale(1.1)'"
+        onmouseout="this.style.transform='scale(1)'"
+      >
+  </div>
+  <div class="container" style="margin-top: -30px;">
+    <h1>Aptitude MCQ</h1>
+    <div id="timer">Time left: <span id="time">10:00</span></div>
+    <form id="quizForm" method="post" action="{% url 'submit_quiz' %}">
+      {% csrf_token %}
+      <input type="hidden" name="num_questions" value="{{ num_questions }}">
+      {% for q in questions %}
+        <div class="question-block">
+          <h3>{{ forloop.counter }}. {{ q.text }}</h3>
+          {% for opt in q.get_shuffled_options %}
+            <label class="option">
+              <input type="radio" name="question_{{ q.id }}" value="{{ opt.id }}">
+              {{ opt.text }}
+            </label><br>
+          {% endfor %}
+        </div>
+        <hr>
+      {% endfor %}
+
+      <div class="actions">
+        <button id="submitBtn" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // prevent double submit
+    document.getElementById('quizForm').addEventListener('submit', function(){
+      document.getElementById('submitBtn').disabled = true;
+    });
+  </script>
+</body>
+</html>
