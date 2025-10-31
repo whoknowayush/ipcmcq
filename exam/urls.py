@@ -7,5 +7,5 @@ urlpatterns = [
     path('auto-submit-exam/', views.auto_submit_exam, name='auto_submit_exam'),
     path('exam-submitted/', views.exam_submitted, name='exam_submitted'),
 ]
-]
+
 
