@@ -41,3 +41,21 @@ def submit_quiz(request):
     score = correct
     total = num_questions
     return render(request, 'exam/result.html', {'score': score, 'total': total})
+
+
+def auto_submit_exam(request):
+    if request.method == "POST":
+        # 🔹 Logic to automatically submit the user's exam
+        # Example:
+        # current_exam = Exam.objects.get(user=request.user, status='in_progress')
+        # current_exam.status = 'submitted'
+        # current_exam.submission_reason = 'Tab switch violation'
+        # current_exam.save()
+
+        print("Auto submission triggered due to tab switch!")
+        return JsonResponse({"status": "submitted"})
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+def exam_submitted(request):
+    return render(request, "exam_submitted.html")
