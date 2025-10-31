@@ -94,6 +94,54 @@
     document.getElementById('quizForm').addEventListener('submit', function(){
       document.getElementById('submitBtn').disabled = true;
     });
+
+    let violationCount = 0;
+
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        violationCount++;
+
+        if (violationCount === 1) {
+            alert("⚠️ Warning! You switched tabs. Next time, your exam will be auto-submitted.");
+        } 
+        else if (violationCount >= 2) {
+            alert("🚨 Second violation detected! Your exam will now be submitted.");
+
+            fetch("/auto-submit-exam/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+                body: JSON.stringify({ reason: "Tab switch violation" }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/exam-submitted/";
+                } else {
+                    alert("Something went wrong submitting your exam.");
+                }
+            });
+        }
+    }
+});
+
+// Get CSRF token for Django POST
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
   </script>
 </body>
 </html>
+
